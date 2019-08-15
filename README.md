@@ -7,9 +7,13 @@ Interpreter es uno de los patrones de diseño más complejos debido a que para s
 Los componentes del patrón Interpreter se explican a continuación:
 
 Client:Actor que dispara la ejecución del interpreter.
+
 Context:Objeto con información global que será utilizada por el intérprete para leer y almacenar información global entre todas las clases que conforman el patrón, este es enviado al interpreter el cual lo replica por toda la estructura.
+
 AbstractExpression:Interface que define la estructura mínima de una expresión.
+
 TerminalExpression:Se refiere a expresiones que no tienen más continuidad y al ser evaluadas o interpretadas terminan la ejecución de esa rama. Estas expresiones marcan el final de la ejecución de un sub-árbol de la expresión.
+
 NonTerminalExpression:Son expresiones compuestas y dentro de ellas existen más expresiones que deben ser evaluadas. Estas estructuras son interpretadas utilizando recursividad hasta llegar a una expresión Terminal.
 
 Se aplica cuando:
