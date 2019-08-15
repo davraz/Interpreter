@@ -112,8 +112,7 @@ public static void main(String[] args) {
     String romano = "LXI";
     Context context = new Context(romano);
     //Construimos el árbol
-    ArrayList<Expresion> tree = new ArrayList<Expression>();
-    tree.add(new ThousandExpression());
+    ArrayList<Expresion> tree = new ArrayList<Expression>();    
     tree.add(new HundredExpression());
     tree.add(new TenExpression());
     tree.add(new OneExpression());
