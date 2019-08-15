@@ -1,0 +1,129 @@
+//Contexto
+
+public class Context {
+
+	protected String input;
+	protected int output;
+
+	public Context(String s) {
+		input = s;
+	}
+}
+
+//Expresion
+
+public abstract class Expression {
+    public abstract String one();
+    public abstract String four();
+    public abstract String five();
+    public abstract String nine();
+    public abstract int multiplier();
+
+    public void interpret(Context context) {
+        if (context.input.starsWith(nine())) {
+            context.output += (9 * multiplier());
+            context.input = context.input.substring(2);
+        }
+
+        else if (context.input.startsWith(four())) {
+            context.output += (4 * multiplier());
+            context.input = context.input.substring(2);
+        }
+
+        else if (context.input.startsWith(five())) {
+            context.output += (5 * multiplier());
+            context.input = context.input.substring(1);
+        }
+
+        while (context.input.startsWith(one())) {
+            context.output += (1 * multiplier());
+            context.input = context.input.substring(1);
+        }
+    }
+}
+
+public class OneExpression extends Expression {
+    public String one() {
+        return "I";
+    }
+
+    public String four() {
+        return "IV";
+    }
+
+    public String five() {
+        return "V";
+    }
+
+    public String nine() {
+        return "IX";
+    }
+
+    public int multiplier() {
+        return 1;
+    }
+}
+
+public class TenExpression extends Expression {
+    public String one() {
+        return "X";
+    }
+
+    public String four() {
+        return "XL";
+    }
+
+    public String five() {
+        return "L";
+    }
+
+    public String nine() {
+        return "XC";
+    }
+
+    public int multiplier() {
+        return 10;
+    }
+}
+
+public class HundredExpression extends Expresion {
+    public String five() {
+        return "D";
+    }
+
+    public String four() {
+        return "CD";
+    }
+
+    public String nine() {
+        return "CM";
+    }
+
+    public String one() {
+        return "C";
+    }
+
+    public int multiplier() {
+        return 100;
+    }
+}
+
+public static void main(String[] args) {
+    String romano = "LXI";
+    Context context = new Context(romano);
+    //Construimos el árbol
+    ArrayList<Expresion> tree = new ArrayList<Expression>();
+    tree.add(new ThousandExpression());
+    tree.add(new HundredExpression());
+    tree.add(new TenExpression());
+    tree.add(new OneExpression());
+
+    // Lo interpretamos
+        Iterator<Expression> it = tree.iterator();
+        while(it.hasNext()){
+            Expression exp = it.next();
+            exp.interpreter(context);
+        }
+
+    System.out.println(context.output);
+}

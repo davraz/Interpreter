@@ -1,0 +1,273 @@
+// En primer lugar definiremos el Context, que nos permitirá gestionar las
+
+// entradas y salidas del sistema
+
+public class Context{
+
+
+
+        private String nextOp = "";
+
+        private int operator = 0;
+
+        private int result = 0;
+
+
+
+        public int getInteger(String in)
+
+        {
+
+                if(in.toLowerCase().equals("cero"))
+
+                        return 0;
+
+                else if(in.toLowerCase().equals("uno"))
+
+                        return 1;
+
+                else if(in.toLowerCase().equals("dos"))
+
+                        return 2;
+
+                else if(in.toLowerCase().equals("tres"))
+
+                        return 3;
+
+                else if(in.toLowerCase().equals("cuatro"))
+
+                        return 4;
+
+                else if(in.toLowerCase().equals("cinco"))
+
+                        return 5;
+
+                else if(in.toLowerCase().equals("seis"))
+
+                        return 6;
+
+                else if(in.toLowerCase().equals("siete"))
+
+                        return 7;
+
+                else if(in.toLowerCase().equals("ocho"))
+
+                        return 8;
+
+                else if(in.toLowerCase().equals("nueve"))
+
+                        return 9;
+
+                else
+
+                        return -1;
+
+        }
+
+
+
+        public void setOperator(int operator)
+
+        {
+
+                this.operator = operator;
+
+        }
+
+
+
+        public void setOperation(String operation)
+
+        {
+
+                if(operation.toLowerCase().equals("mas"))
+
+                        this.nextOp = "+";
+
+                else if(operation.toLowerCase().equals("menos"))
+
+                        this.nextOp = "-";
+
+        }
+
+
+
+        public void calculate()
+
+        {
+
+                if(this.nextOp.toLowerCase().equals("") ||
+
+                        this.nextOp.toLowerCase().equals("+") )
+
+                        this.result += operator;
+
+                else if(this.nextOp.toLowerCase().equals("-"))
+
+                        this.result -= operator;
+
+        }
+
+
+
+        pubic int getResult()
+
+        {
+
+                return this.result;
+
+        }
+
+}
+
+
+
+// A continuación definiremos la interfaz para AbstractExpression
+
+
+
+public interface Expression
+
+{
+
+        public abstract void interpret(Context context);
+
+}
+
+
+
+// En este ejemplo, por simplicidad, sólo utilizaremos nodos terminales.
+
+// Definiremos 2 tipos: OperatorExpression y NumericExpression
+
+
+
+// Definimos OperationExpression para las operaciones mas y menos
+
+
+
+public class OperationExpression implements Expression
+
+{
+
+
+
+        private String operation;
+
+
+
+        pubilc OperationExpression(String token)
+
+        {
+
+                this.operator = token;
+
+        }
+
+        public interpret(Context context)
+
+        {
+
+                context.setOperation(this.operation);
+
+                context.calculate();
+
+        }
+
+}
+
+
+
+// Definimos NumericExpression para los operadores numéricos
+
+
+
+public class NumericExpression implements Expression
+
+{
+
+        private String value;
+
+
+
+        pubilc NumericExpression(String token)
+
+        {
+
+                this.value = token;
+
+        }
+
+        public interpret(Context context)
+
+        {
+
+                context.setOperator(context.getInteger(this.value));
+
+                context.calculate();
+
+        }
+
+}
+
+
+
+// Una vez tenemos todos los componentes, pasemos a definir el cliente,
+
+// que se encargará de montar el árbol sintáctico y evaluar la expresión.
+
+
+
+// La ejecución de nuestro programa se realizará de la siguiente manera:
+
+// java Interpreter uno mas cinco menos cuatro
+
+
+
+public class Interpreter{
+
+        public static void main(String [] args)
+
+        {
+
+                // Creamos el arbol de expresiones y el contexto
+
+                ArrayList tree = new ArrayList();
+
+                Context context = new Context();
+
+
+
+                // Añadimos los tokens pasados como argumentos
+
+                for(String token : args)
+
+                {
+
+                        if(context.getInteger(token) >= 0)
+
+                                tree.add(new NumericExpression(token));
+
+                        else
+
+                                tree.add(new OperationExpression(token));
+
+                }
+
+
+
+                // Interpretamos cada expresión
+
+                for(Expression e : tree)
+
+                        e.interpret(context);
+
+
+
+                // Mostramos el resultado
+
+                System.out.println("El resultado de la interpretación es " + context.getResult());
+
+        }
+
+}
