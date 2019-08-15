@@ -29,6 +29,7 @@ POSITIVAS:
 Fácil modificación y ampliación de los elementos gramaticales (al ser representados mediante una jerarquía de clases).
 Su implementación es sencilla (en comparación con otros métodos para implementar esta funcionalidad).
 La implementación de los métodos para cada elemento del lenguaje es dinámica (puede cambiarse en tiempo de ejecución).
+
 NEGATIVAS:
 
 No es muy eficiente.
